@@ -3,12 +3,17 @@ Created By samathashetty on 09/03/19
 */
 
 public class Product {
+    Item item;
 
-    public long id;
+    public Item getItem() {
+        return item;
+    }
 
-    public String name;
+    // Setter Methods
 
-    public Price current_price;
+    public void setItem(Item itemObject) {
+        this.item = itemObject;
+    }
 
 
 }

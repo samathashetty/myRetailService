@@ -6,18 +6,16 @@ import java.util.ArrayList;
 
 public class ProductRequest {
 
-    Item item;
+    private Product product;
 
-    public Item getItem() {
-        return item;
+
+
+
+    public Product getProduct() {
+        return product;
     }
 
-    // Setter Methods
-
-    public void setItem(Item itemObject) {
-        this.item = itemObject;
+    public void setProduct(Product product) {
+        this.product = product;
     }
-
-
-
 }
