@@ -1,2 +1,0 @@
-# myRetailService
-retail service
