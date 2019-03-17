@@ -15,19 +15,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.InvalidObjectException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class ProductPriceController {
 
     RetailServiceHelper retailServiceHelper;
 
-    ProductPriceController(RetailServiceHelper rs){this.retailServiceHelper = rs;}
+    ProductPriceController(RetailServiceHelper rs){
+        this.retailServiceHelper = rs;
+    }
 
     @RequestMapping(value = "/products/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
 
         ProductRequest pr = retailServiceHelper.getProductById(id);
+
+        if(pr == null){
+            throw new NoSuchElementException("There is no Product available for Id : " + id);
+        }
 
         Price price = retailServiceHelper.getPriceById(id);
 
@@ -40,17 +48,28 @@ public class ProductPriceController {
     }
 
     @RequestMapping(value = "/products/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ProductResponse updateProductPrice(@RequestBody ProductResponse product, HttpServletRequest request ) {
+    public ResponseEntity<Product> updateProductPrice(@RequestBody ProductResponse product, HttpServletRequest request,
+                                                      @PathVariable("id") Long id) {
 
+        if(product == null)
+            throw new IllegalArgumentException("Product body is absent.");
 
-        Price price = retailServiceHelper.updatePrice(product.id, product.current_price.getPrice());
+        if(id != product.id || product.id != product.current_price.getId())
+            throw new IllegalArgumentException("The path variable does not match with the product id");
+
+        Price price = retailServiceHelper.getPriceById(id);
+        if(price == null){
+            throw new NoSuchElementException("There is no price available for product Id : " + id);
+        }
+
+        Price updatePrice = retailServiceHelper.updatePrice(product.id, product.current_price.getPrice());
 
         ProductResponse updtProduct = new ProductResponse();
         updtProduct.id = product.id;
         updtProduct.name = product.name;
-        updtProduct.current_price = price;
+        updtProduct.current_price = updatePrice;
 
-        return updtProduct;
+        return new ResponseEntity(updtProduct, HttpStatus.OK);
 
     }
 

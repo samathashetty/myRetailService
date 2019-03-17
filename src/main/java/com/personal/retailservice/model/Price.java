@@ -35,4 +35,6 @@ public class Price {
     public void setCurrency_code(String currency_code) {
         this.currency_code = currency_code;
     }
+
+
 }
