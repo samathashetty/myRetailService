@@ -21,7 +21,7 @@ public class RetailServiceHelper {
 
     @Value("${product.service.url}")
     String uri;
-    RetailServiceHelper(PriceService  ps){
+    public RetailServiceHelper(PriceService  ps){
         this.priceService = ps;
     }
 
@@ -53,4 +53,5 @@ public class RetailServiceHelper {
 
         return priceService.updatePriceForProduct(id, price);
     }
+
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service("price")
 public class PriceService {
 
-    PriceService(PriceRepository priceRepository){
+    public PriceService(PriceRepository priceRepository){
         this.priceRepository = priceRepository;
     }
 

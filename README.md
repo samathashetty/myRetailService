@@ -23,6 +23,6 @@ CURL Requests:
 
 #Coverage Report
 
-mvn package install test jacoco:report
+mvn clean package install test jacoco:report
 
-The report is available at ./target/site/jacoco/index.html
+The report will be available at ./target/site/jacoco/index.html
